@@ -1,6 +1,55 @@
-<!-- ═══════════════════════════════════════════════════════════ -->
-<!-- 📅 COMPONENTE CALENDARIO - FECHA DE LA BODA                 -->
-<!-- ═══════════════════════════════════════════════════════════ -->
+---
+// ═══════════════════════════════════════════════════════════
+// 📅 CALENDARIO AUTOMÁTICO - SOLO EDITA ESTAS 3 VARIABLES
+// ═══════════════════════════════════════════════════════════
+
+// 🎯 CONFIGURACIÓN SIMPLE (SOLO EDITA ESTO)
+const config = {
+  mes: 1,                    // Número del mes (1=Enero, 2=Febrero, ..., 12=Diciembre)
+  año: 2026,                  // Año
+  diaEspecial: 10,           // Día marcado en el calendario
+  
+  // Colores (opcional personalizar)
+  colores: {
+    principal: "#D4AF37",     // Dorado
+    texto: "#6B8E6B",         // Verde
+    hover: "#D4AF37",         // Dorado para hover
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
+// 🤖 CÁLCULOS AUTOMÁTICOS - NO EDITAR
+// ═══════════════════════════════════════════════════════════
+
+// Nombres de meses
+const nombresMeses = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
+
+// Obtener nombre del mes
+const nombreMes = nombresMeses[config.mes - 1];
+
+// Calcular automáticamente el día de la semana del día 1
+const fecha = new Date(config.año, config.mes - 1, 1);
+const primerDiaSemana = fecha.getDay(); // 0=Domingo, 1=Lunes, etc.
+
+// Calcular total de días del mes
+const ultimoDia = new Date(config.año, config.mes, 0);
+const totalDias = ultimoDia.getDate();
+
+// Generar array de días vacíos antes del día 1
+const diasVacios = Array(primerDiaSemana).fill(null);
+
+// Generar array de días del mes
+const diasMes = Array.from({ length: totalDias }, (_, i) => i + 1);
+
+// Debug info (puedes eliminarlo después)
+console.log(`📅 Calendario: ${nombreMes} ${config.año}`);
+console.log(`📍 Día 1 cae en: ${['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][primerDiaSemana]}`);
+console.log(`📊 Total de días: ${totalDias}`);
+console.log(`⭐ Día especial: ${config.diaEspecial}`);
+---
 
 <section class="py-2 px-6 sm:px-8 md:px-12 lg:px-16">
   <div class="max-w-3xl mx-auto relative">
@@ -10,7 +59,7 @@
       
       <!-- HOJAS LATERALES IZQUIERDA -->
       <div class="absolute -left-8 md:-left-8 lg:-left-8 top-24 md:top-8 w-16 md:w-16 lg:w-16 pointer-events-none z-0" id="hojas-cal-izq">
-        <img src="/imagenes/FloresLaterales.webp" alt="Hojas" class="w-full h-auto object-contain " />
+        <img src="/imagenes/FloresLaterales.webp" alt="Hojas" class="w-full h-auto object-contain" />
       </div>
 
       <!-- HOJAS LATERALES DERECHA -->
@@ -25,9 +74,9 @@
           <!-- Línea decorativa izquierda -->
           <div class="w-12 h-px bg-gradient-to-r from-transparent to-[#D4AF37]" id="linea-izq"></div>
 
-          <!-- Título -->
+          <!-- Título con mes y año -->
           <h3 class="font-great-vibes text-4xl md:text-4xl text-[#D4AF37] font-normal">
-            Noviembre
+            {nombreMes}
           </h3>
 
           <!-- Línea decorativa derecha -->
@@ -45,119 +94,34 @@
           <div class="text-center font-charm text-sm md:text-base text-[#6B8E6B] font-bold">S</div>
         </div>
 
-        <!-- DÍAS DEL MES - NOVIEMBRE 2025 (empieza en sábado) -->
+        <!-- DÍAS DEL MES - GENERADOS AUTOMÁTICAMENTE -->
         <div class="grid grid-cols-7 gap-1 md:gap-2" id="dias-container">
-          <!-- Espacios vacíos hasta el sábado (día 1) -->
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
           
-          <!-- Sábado 1 -->
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">1</span>
-          </div>
-
-          <!-- Semana 2: del 2 al 8 -->
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">2</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">3</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">4</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">5</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">6</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">7</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">8</span>
-          </div>
-
-          <!-- Semana 3: del 9 al 15 -->
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">9</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">10</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">11</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">12</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">13</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">14</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">15</span>
-          </div>
-
-          <!-- Semana 4: del 16 al 22 -->
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">16</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">17</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">18</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">19</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">20</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">21</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">22</span>
-          </div>
-
-          <!-- Semana 5: del 23 al 29 (DÍA ESPECIAL) -->
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">23</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">24</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">25</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">26</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">27</span>
-          </div>
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">28</span>
-          </div>
+          <!-- Espacios vacíos antes del día 1 (calculados automáticamente) -->
+          {diasVacios.map(() => (
+            <div></div>
+          ))}
           
-          <!-- ⭐ SÁBADO 29 - DÍA ESPECIAL ⭐ -->
-          <div class="aspect-square flex items-center justify-center rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#e8c878] shadow-xl dia-calendario" id="dia-especial">
-            <span class="font-charm text-2xl md:text-3xl text-white font-bold">29</span>
-          </div>
-
-          <!-- Último día de noviembre -->
-          <div class="aspect-square flex items-center justify-center rounded-lg hover:bg-[#D4AF37]/10 transition-all dia-calendario">
-            <span class="font-charm text-base md:text-lg text-[#6B8E6B]">30</span>
-          </div>
+          <!-- Días del mes -->
+          {diasMes.map((dia) => (
+            <div 
+              class={`aspect-square flex items-center justify-center rounded-lg transition-all dia-calendario ${
+                dia === config.diaEspecial 
+                  ? 'bg-gradient-to-br from-[#D4AF37] to-[#e8c878] shadow-xl' 
+                  : 'hover:bg-[#D4AF37]/10'
+              }`}
+              id={dia === config.diaEspecial ? 'dia-especial' : ''}
+            >
+              <span class={`font-charm ${
+                dia === config.diaEspecial 
+                  ? 'text-2xl md:text-3xl text-white font-bold' 
+                  : 'text-base md:text-lg text-[#6B8E6B]'
+              }`}>
+                {dia}
+              </span>
+            </div>
+          ))}
+          
         </div>
 
       </div>
@@ -165,7 +129,26 @@
   </div>
 </section>
 
-<!-- Scripts sin cambios -->
+<style>
+  #dia-especial {
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+    position: relative;
+  }
+
+  #dia-especial::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 0.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+  }
+
+  .dia-calendario:hover {
+    transform: translateY(-2px);
+  }
+</style>
+
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -176,6 +159,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       console.log("📅 Iniciando animaciones del calendario...");
 
+      // Estados iniciales
       gsap.set("#hojas-cal-izq", { opacity: 0, x: 60 });
       gsap.set("#hojas-cal-der", { opacity: 0, x: -60 });
       gsap.set("#calendario-card", { opacity: 0, scale: 0.95 });
@@ -184,6 +168,7 @@
       gsap.set("#titulo-mes-container h3", { opacity: 0, scale: 0.9 });
       gsap.set(".dia-calendario", { opacity: 0, scale: 0.8 });
 
+      // ScrollTrigger para animaciones
       ScrollTrigger.create({
         trigger: "#calendario-card",
         start: "top 85%",
@@ -238,6 +223,7 @@
         gsap.set(".dia-calendario", { opacity: 0, scale: 0.8 });
       }
 
+      // Animaciones continuas
       gsap.to("#hojas-cal-izq", {
         y: -8,
         rotation: -3,
@@ -258,36 +244,19 @@
         delay: 1.2,
       });
 
-      gsap.to("#dia-especial", {
-        scale: 1.05,
-        duration: 2.5,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-        delay: 1.5,
-      });
+      const diaEspecial = document.getElementById("dia-especial");
+      if (diaEspecial) {
+        gsap.to("#dia-especial", {
+          scale: 1.05,
+          duration: 2.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+          delay: 1.5,
+        });
+      }
 
       console.log("📅✨ ¡Calendario listo!");
     });
   }
 </script>
-
-<style>
-  #dia-especial {
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
-    position: relative;
-  }
-
-  #dia-especial::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 0.5rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    pointer-events: none;
-  }
-
-  .dia-calendario:hover {
-    transform: translateY(-2px);
-  }
-</style>
